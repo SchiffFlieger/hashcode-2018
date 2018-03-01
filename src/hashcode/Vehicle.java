@@ -1,7 +1,9 @@
 package hashcode;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Vehicle {
     private final int id;
@@ -49,7 +51,10 @@ public class Vehicle {
                 possibles.add(ride);
             }
         }
-        return getNearestRide(possibles);
+        final List<Ride> list = possibles.stream().sorted(Comparator.comparingInt(this::getDelta)).collect(Collectors.toList());
+        return list.stream()
+                .filter(e -> Math.abs(e.getEarliestStart() - currentTime) >= position.distance(e.getStartIntersection()))
+                .findFirst().orElse(getNearestRide(possibles));
     }
 
     private Ride getNearestRide (List<Ride> rides) {
@@ -63,6 +68,25 @@ public class Vehicle {
     }
 
     private int getDelta (Ride ride) {
+        if (ride == null) {
+            return Integer.MAX_VALUE;
+        }
+        final int dDistance = position.distance(ride.getStartIntersection());
+        final int dTime = Math.abs(ride.getEarliestStart() - currentTime);
+        return dDistance + dTime;
+    }
+
+    private Ride getBonusRide (List<Ride> rides) {
+        Ride min = null;
+        for (Ride ride : rides) {
+            if (getBonusDelta(ride) < getBonusDelta(min)) {
+                min = ride;
+            }
+        }
+        return min;
+    }
+
+    private int getBonusDelta (Ride ride) {
         if (ride == null) {
             return Integer.MAX_VALUE;
         }

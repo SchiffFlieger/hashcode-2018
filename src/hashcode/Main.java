@@ -22,7 +22,9 @@ public class Main {
             while (!rides.isEmpty()) {
                 for (Vehicle vehicle : vehicles) {
                     final Ride ride = vehicle.getBestPossibleRide(rides);
-                    if (ride == null) break ridesLoop;
+                    if (ride == null) {
+                        break ridesLoop;
+                    }
                     vehicle.addRide(ride);
                     rides.remove(ride);
                 }
