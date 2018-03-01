@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 public class Main {
@@ -19,18 +18,19 @@ public class Main {
             Input.read(file);
 
             rides.sort(Comparator.comparingInt(Ride::getEarliestStart));
-            for (Vehicle vehicle : vehicles) {
-                for (Iterator<Ride> iterator = rides.iterator(); iterator.hasNext(); ) {
-                    Ride ride = iterator.next();
-                    if (vehicle.checkIfPossible(ride)) {
-                        vehicle.addRide(ride);
-                        iterator.remove();
-                    }
+            ridesLoop:
+            while (!rides.isEmpty()) {
+                for (Vehicle vehicle : vehicles) {
+                    final Ride ride = vehicle.getBestPossibleRide(rides);
+                    if (ride == null) break ridesLoop;
+                    vehicle.addRide(ride);
+                    rides.remove(ride);
                 }
             }
 
             Output.writeOutput(vehicles, "out/" + file.getName().substring(0, 1) + ".out");
 
+            System.out.println(file.getName());
             System.out.println("Vehicles: " + nVehicles);
             System.out.println("Rides:    " + nRides);
             System.out.println("Rides not taken: " + rides.size());

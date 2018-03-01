@@ -25,7 +25,7 @@ public class Vehicle {
 
     public void addRide (Ride ride) {
         rides.add(ride);
-        currentTime += position.distance(ride.getStartIntersection()) + ride.getStartIntersection().distance(ride.getEndIntersection());
+        currentTime += getStepsToEnd(ride);
         position = ride.getEndIntersection();
     }
 
@@ -42,18 +42,47 @@ public class Vehicle {
         return builder.toString();
     }
 
-        public boolean checkIfPossible (Ride ride) {
-            int earliestStart = ride.getEarliestStart();
-            int latestFinish = ride.getLatestFinish();
-
-        if (ride.getStartIntersection().distance(ride.getEndIntersection()) <= latestFinish - earliestStart) {
-            // Possible at all
-            if (position.distance(ride.getStartIntersection()) + ride.getStartIntersection().distance(ride.getEndIntersection()) <= (latestFinish - currentTime)) {
-                //Possible from current position
-                return true;
-            } else {
-                return false;
+    public Ride getBestPossibleRide (List<Ride> rides) {
+        final List<Ride> possibles = new ArrayList<>();
+        for (Ride ride : rides) {
+            if (checkIfPossible(ride)) {
+                possibles.add(ride);
             }
+        }
+        return getNearestRide(possibles);
+    }
+
+    private Ride getNearestRide (List<Ride> rides) {
+        Ride min = null;
+        for (Ride ride : rides) {
+            if (getDelta(ride) < getDelta(min)) {
+                min = ride;
+            }
+        }
+        return min;
+    }
+
+    private int getDelta (Ride ride) {
+        if (ride == null) {
+            return Integer.MAX_VALUE;
+        }
+        final int dDistance = position.distance(ride.getStartIntersection());
+        final int dTime = Math.abs(ride.getEarliestStart() - currentTime);
+        return dDistance + dTime;
+    }
+
+    private int getStepsToEnd (Ride ride) {
+        return position.distance(ride.getStartIntersection()) + ride.getStartIntersection().distance(ride.getEndIntersection());
+    }
+
+    public boolean checkIfPossible (Ride ride) {
+        int earliestStart = ride.getEarliestStart();
+        int latestFinish = ride.getLatestFinish();
+
+        // Possible at all
+        if (ride.getStartIntersection().distance(ride.getEndIntersection()) <= latestFinish - earliestStart) {
+            //Possible from current position
+            return getStepsToEnd(ride) <= (latestFinish - currentTime);
         } else {
             return false;
         }
