@@ -12,8 +12,6 @@ public class Main {
     private static List<Vehicle> vehicles;
 
     public static void main (String[] args) throws FileNotFoundException {
-        String filename = "b";
-        Input.read("res/" + filename + "" + ".in");
         final File[] files = new File("res").listFiles();
         for (File file : files) {
             Input.read(file);
@@ -24,7 +22,7 @@ public class Main {
                 currentVehicle = (currentVehicle + 1) % vehicles.size();
             }
 
-            Output.writeOutput(vehicles);
+            Output.writeOutput(vehicles, "out/" + file.getName().substring(0, 1) + ".out");
 
             System.out.println(nRides);
         }
