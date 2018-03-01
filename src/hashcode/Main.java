@@ -20,11 +20,18 @@ public class Main {
             rides.sort(Comparator.comparingInt(Ride::getEarliestStart));
             ridesLoop:
             while (!rides.isEmpty()) {
+                int notAvailableCars = 0;
                 for (Vehicle vehicle : vehicles) {
                     final Ride ride = vehicle.getBestPossibleRide(rides);
-                    if (ride == null) break ridesLoop;
+                    if (ride == null) {
+                        notAvailableCars++;
+                        continue;
+                    }
                     vehicle.addRide(ride);
                     rides.remove(ride);
+                }
+                if (notAvailableCars == vehicles.size()) {
+                    break ridesLoop;
                 }
             }
 
