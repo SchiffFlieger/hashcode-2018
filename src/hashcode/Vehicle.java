@@ -33,15 +33,18 @@ public class Vehicle {
         return rides.get(index);
     }
 
-    public boolean checkIfPossible (Ride ride) {
-        int myX = position.getX();
-        int myY = position.getY();
-        int fromX = ride.getStartIntersection().getX();
-        int fromY = ride.getStartIntersection().getY();
-        int toX = ride.getEndIntersection().getX();
-        int toY = ride.getEndIntersection().getY();
-        int earliestStart = ride.getEarliestStart();
-        int latestFinish = ride.getLatestFinish();
+    public String outputString () {
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.rides.size()).append(" ");
+        for (Ride ride : this.rides) {
+            builder.append(ride.getId()).append(" ");
+        }
+        return builder.toString();
+    }
+
+        public boolean checkIfPossible (Ride ride) {
+            int earliestStart = ride.getEarliestStart();
+            int latestFinish = ride.getLatestFinish();
 
         if (ride.getStartIntersection().distance(ride.getEndIntersection()) <= latestFinish - earliestStart) {
             // Possible at all
