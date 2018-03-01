@@ -3,6 +3,7 @@ package hashcode;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Main {
         for (File file : files) {
             Input.read(file);
 
+            rides.sort(Comparator.comparingInt(Ride::getEarliestStart));
             for (Vehicle vehicle : vehicles) {
                 for (Iterator<Ride> iterator = rides.iterator(); iterator.hasNext(); ) {
                     Ride ride = iterator.next();
