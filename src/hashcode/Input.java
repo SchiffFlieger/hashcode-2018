@@ -14,11 +14,11 @@ public class Input {
         final Scanner scanner = new Scanner(new File(filename));
 
         int nRides, nVehicles;
+        Main.setRows(scanner.nextInt());
+        Main.setCols(scanner.nextInt());
         nRides = scanner.nextInt();
         nVehicles = scanner.nextInt();
 
-        Main.setRows(scanner.nextInt());
-        Main.setCols(scanner.nextInt());
         Main.setnVehicles(nVehicles);
         Main.setnRides(nRides);
         Main.setBonus(scanner.nextInt());
