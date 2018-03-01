@@ -15,6 +15,10 @@ public class Ride {
         this.latestFinish = latestFinish;
     }
 
+    public int getId () {
+        return id;
+    }
+
     public Intersection getStartIntersection () {
         return startIntersection;
     }
