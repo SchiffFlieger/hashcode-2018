@@ -3,6 +3,7 @@ package hashcode;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Main {
@@ -16,16 +17,21 @@ public class Main {
         for (File file : files) {
             Input.read(file);
 
-            int currentVehicle = 0;
-            for (Ride ride : rides) {
-                vehicles.get(currentVehicle).addRide(ride);
-                currentVehicle = (currentVehicle + 1) % vehicles.size();
+            for (Vehicle vehicle : vehicles) {
+                for (Iterator<Ride> iterator = rides.iterator(); iterator.hasNext(); ) {
+                    Ride ride = iterator.next();
+                    if (vehicle.checkIfPossible(ride)) {
+                        vehicle.addRide(ride);
+                        iterator.remove();
+                    }
+                }
             }
 
             Output.writeOutput(vehicles, "out/" + file.getName().substring(0, 1) + ".out");
 
             System.out.println("Vehicles: " + nVehicles);
             System.out.println("Rides:    " + nRides);
+            System.out.println("Rides not taken: " + rides.size());
         }
     }
 

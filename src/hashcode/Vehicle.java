@@ -3,15 +3,16 @@ package hashcode;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.abs;
-
 public class Vehicle {
     private final int id;
     private final List<Ride> rides;
+    private Intersection position;
+    private int currentTime;
 
     public Vehicle (int id) {
         this.id = id;
-        rides = new ArrayList<Ride>();
+        rides = new ArrayList<>();
+        position = new Intersection(0, 0);
     }
 
     public int getId () {
@@ -22,15 +23,19 @@ public class Vehicle {
         return rides.size();
     }
 
-    public boolean addRide (Ride ride) {
-        return rides.add(ride);
+    public void addRide (Ride ride) {
+        rides.add(ride);
+        currentTime += position.distance(ride.getStartIntersection()) + ride.getStartIntersection().distance(ride.getEndIntersection());
+        position = ride.getEndIntersection();
     }
 
     public Ride getRide (int index) {
         return rides.get(index);
     }
 
-    public boolean checkIfPossible (int myX, int myY, Ride ride, int currentTime) {
+    public boolean checkIfPossible (Ride ride) {
+        int myX = position.getX();
+        int myY = position.getY();
         int fromX = ride.getStartIntersection().getX();
         int fromY = ride.getStartIntersection().getY();
         int toX = ride.getEndIntersection().getX();
@@ -38,9 +43,9 @@ public class Vehicle {
         int earliestStart = ride.getEarliestStart();
         int latestFinish = ride.getLatestFinish();
 
-        if (abs(fromX - toX) + abs(fromY - toY) <= latestFinish - earliestStart) {
+        if (ride.getStartIntersection().distance(ride.getEndIntersection()) <= latestFinish - earliestStart) {
             // Possible at all
-            if (abs(myX - fromX) + abs(myY - fromY) + abs(fromX - toX) + abs(fromY - toY) <= (latestFinish - currentTime)) {
+            if (position.distance(ride.getStartIntersection()) + ride.getStartIntersection().distance(ride.getEndIntersection()) <= (latestFinish - currentTime)) {
                 //Possible from current position
                 return true;
             } else {
