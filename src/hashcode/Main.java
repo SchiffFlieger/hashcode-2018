@@ -3,7 +3,6 @@ package hashcode;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
 
 import static java.lang.Math.abs;
 
@@ -16,7 +15,38 @@ public class Main {
     public static void main (String[] args) throws FileNotFoundException {
         Input.read("res/a.in");
 
+        int currentVehicle = 0;
+        for (Ride ride : rides) {
+            vehicles.get(currentVehicle).addRide(ride);
+            currentVehicle = (currentVehicle + 1) % vehicles.size();
+        }
+
+        Output.writeOutput(vehicles);
+
         System.out.println(nRides);
+    }
+
+    public boolean checkIfPossible (int myX, int myY, int fromX, int toX, int fromY, int toY, int currentTime, int earliestStart, int latestFinish) {
+
+        if (abs(fromX - toX) + abs(fromY - toY) <= latestFinish - earliestStart) {
+            // Possible at all
+            if (abs(myX - fromX) + abs(myY - fromY) + abs(fromX - toX) + abs(fromY - toY) <= (latestFinish - currentTime)) {
+                //Possible from current position
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static void setRides (ArrayList<Ride> rides) {
+        Main.rides = rides;
+    }
+
+    public static void setVehicles (List<Vehicle> vehicles) {
+        Main.vehicles = vehicles;
     }
 
     public static int getRows () {
@@ -67,36 +97,7 @@ public class Main {
         Main.steps = steps;
     }
 
-    public static ArrayList<Ride> getRides () {
+    public static List<Ride> getRides () {
         return rides;
-    }
-
-    public static void setRides (ArrayList<Ride> rides) {
-        Main.rides = rides;
-        Input input = new Input();
-        input.readFile("res/a.in");
-
-        int currentVehicle = 0;
-        for (Ride ride : rides) {
-            vehicles.get(currentVehicle).addRide(ride);
-            currentVehicle = (currentVehicle + 1) % vehicles.size();
-        }
-
-        Output.writeOutput(vehicles);
-    }
-
-    public boolean checkIfPossible (int myX, int myY, int fromX, int toX, int fromY, int toY, int currentTime, int earliestStart, int latestFinish) {
-
-        if (abs(fromX - toX) + abs(fromY - toY) <= latestFinish - earliestStart) {
-            // Possible at all
-            if (abs(myX - fromX) + abs(myY - fromY) + abs(fromX - toX) + abs(fromY - toY) <= (latestFinish - currentTime)) {
-                //Possible from current position
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
     }
 }

@@ -13,11 +13,13 @@ public class Input {
     public static void read (String filename) throws FileNotFoundException {
         final Scanner scanner = new Scanner(new File(filename));
 
-        int nRides;
+        int nRides, nVehicles;
         nRides = scanner.nextInt();
+        nVehicles = scanner.nextInt();
+
         Main.setRows(scanner.nextInt());
         Main.setCols(scanner.nextInt());
-        Main.setnVehicles(scanner.nextInt());
+        Main.setnVehicles(nVehicles);
         Main.setnRides(nRides);
         Main.setBonus(scanner.nextInt());
         Main.setSteps(scanner.nextInt());
@@ -30,5 +32,11 @@ public class Input {
             rides.add(ride);
         }
         Main.setRides(rides);
+
+        final ArrayList<Vehicle> vehicles = new ArrayList<>(nVehicles);
+        for (int i = 0; i < nVehicles; i++) {
+            vehicles.add(new Vehicle(i));
+        }
+        Main.setVehicles(vehicles);
     }
 }

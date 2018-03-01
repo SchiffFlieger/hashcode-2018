@@ -6,7 +6,6 @@ import java.util.List;
 public class Vehicle {
     private final int id;
     private final List<Ride> rides;
-    private final int id;
 
     public Vehicle (int id) {
         this.id = id;
