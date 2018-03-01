@@ -10,8 +10,8 @@ import java.util.Scanner;
  */
 public class Input {
 
-    public static void read (String filename) throws FileNotFoundException {
-        final Scanner scanner = new Scanner(new File(filename));
+    public static void read (File f) throws FileNotFoundException {
+        final Scanner scanner = new Scanner(f);
 
         int nRides, nVehicles;
         Main.setRows(scanner.nextInt());
