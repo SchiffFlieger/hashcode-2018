@@ -1,6 +1,7 @@
 package hashcode;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,13 +17,11 @@ public class Output {
             FileOutputStream fos = new FileOutputStream(fout);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
+            List<String> strings = new ArrayList<>(vehicles.size());
             for (Vehicle car : vehicles) {
-                bw.write(car.getNumberOfRides() + " ");
-                for (int i = 0; i < car.getNumberOfRides(); i++) {
-                    bw.write(car.getRide(i).getId() + " ");
-                }
-                bw.newLine();
+                strings.add(car.outputString());
             }
+            bw.write(String.join("\n", strings));
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -30,6 +30,15 @@ public class Vehicle {
         return rides.get(index);
     }
 
+    public String outputString () {
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.rides.size()).append(" ");
+        for (Ride ride : this.rides) {
+            builder.append(ride.getId()).append(" ");
+        }
+        return builder.toString();
+    }
+
     public boolean checkIfPossible (int myX, int myY, Ride ride, int currentTime) {
         int fromX = ride.getStartIntersection().getX();
         int fromY = ride.getStartIntersection().getY();
