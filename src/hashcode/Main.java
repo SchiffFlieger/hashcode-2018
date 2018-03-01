@@ -3,7 +3,6 @@ package hashcode;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -17,18 +16,19 @@ public class Main {
         for (File file : files) {
             Input.read(file);
 
-            rides.sort(Comparator.comparingInt(Ride::getEarliestStart));
-            ridesLoop:
-            while (!rides.isEmpty()) {
+            boolean takenAny;
+            do {
+                takenAny = false;
                 for (Vehicle vehicle : vehicles) {
                     final Ride ride = vehicle.getBestPossibleRide(rides);
-                    if (ride == null) {
-                        break ridesLoop;
+                    if (ride != null) {
+                        takenAny = true;
+                        vehicle.addRide(ride);
+                        rides.remove(ride);
                     }
-                    vehicle.addRide(ride);
-                    rides.remove(ride);
                 }
             }
+            while (takenAny);
 
             Output.writeOutput(vehicles, "out/" + file.getName().substring(0, 1) + ".out");
 
