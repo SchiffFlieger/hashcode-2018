@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vehicle {
+    private final int id;
     private final List<Ride> rides;
 
-    public Vehicle () {
+    public Vehicle (int id) {
+        this.id = id;
         rides = new ArrayList<Ride>();
     }
 
