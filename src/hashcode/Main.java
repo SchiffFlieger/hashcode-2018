@@ -24,7 +24,8 @@ public class Main {
 
             Output.writeOutput(vehicles);
 
-            System.out.println(nRides);
+            System.out.println("Vehicles: " + nVehicles);
+            System.out.println("Rides:    " + nRides);
         }
     }
 

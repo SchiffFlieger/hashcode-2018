@@ -16,8 +16,8 @@ public class Input {
         int nRides, nVehicles;
         Main.setRows(scanner.nextInt());
         Main.setCols(scanner.nextInt());
-        nRides = scanner.nextInt();
         nVehicles = scanner.nextInt();
+        nRides = scanner.nextInt();
 
         Main.setnVehicles(nVehicles);
         Main.setnRides(nRides);
