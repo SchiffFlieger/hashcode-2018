@@ -10,7 +10,7 @@ public class Main {
 
     public static void main (String[] args) throws FileNotFoundException {
         Input input = new Input();
-        input.readFile("res/input.in");
+        input.readFile("res/a.in");
 
         int currentVehicle = 0;
         for (Ride ride : rides) {
@@ -18,6 +18,6 @@ public class Main {
             currentVehicle = (currentVehicle + 1) % vehicles.size();
         }
 
-        //TODO Output
+        Output.writeOutput(vehicles);
     }
 }
