@@ -19,14 +19,30 @@ public class Main {
             Input.read(file);
 
             rides.sort(Comparator.comparingInt(Ride::getEarliestStart));
-            for (Vehicle vehicle : vehicles) {
-                for (Iterator<Ride> iterator = rides.iterator(); iterator.hasNext(); ) {
-                    Ride ride = iterator.next();
-                    if (vehicle.checkIfPossible(ride)) {
-                        vehicle.addRide(ride);
+
+            int lastVehicle=0;
+            System.out.println("vecicles: "+ vehicles.size());
+            bla:for (Iterator<Ride> iterator = rides.iterator(); iterator.hasNext(); ) {
+                Ride ride = iterator.next();
+                //for (Vehicle vehicle : vehicles) {
+                for (int cV= lastVehicle; cV < vehicles.size() ;cV++) {
+                    if (vehicles.get(cV).checkIfPossible(ride)) {
+                        vehicles.get(cV).addRide(ride);
                         iterator.remove();
+                        lastVehicle=cV;
+                        continue bla;
                     }
                 }
+                for (int currentVehicle= 0; currentVehicle < lastVehicle;currentVehicle++) {
+                    if (vehicles.get(currentVehicle).checkIfPossible(ride)) {
+                        vehicles.get(currentVehicle).addRide(ride);
+                        iterator.remove();
+                        lastVehicle=currentVehicle;
+                        continue bla;
+                    }
+                }
+
+
             }
 
             Output.writeOutput(vehicles, "out/" + file.getName().substring(0, 1) + ".out");
