@@ -1,5 +1,6 @@
 package hashcode;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +12,20 @@ public class Main {
     private static List<Vehicle> vehicles;
 
     public static void main (String[] args) throws FileNotFoundException {
-        Input.read("res/b.in");
+        final File[] files = new File("res").listFiles();
+        for (File file : files) {
+            Input.read(file);
 
-        int currentVehicle = 0;
-        for (Ride ride : rides) {
-            vehicles.get(currentVehicle).addRide(ride);
-            currentVehicle = (currentVehicle + 1) % vehicles.size();
+            int currentVehicle = 0;
+            for (Ride ride : rides) {
+                vehicles.get(currentVehicle).addRide(ride);
+                currentVehicle = (currentVehicle + 1) % vehicles.size();
+            }
+
+            Output.writeOutput(vehicles);
+
+            System.out.println(nRides);
         }
-
-        Output.writeOutput(vehicles);
-
-        System.out.println(nRides);
     }
 
     public static void setRides (ArrayList<Ride> rides) {
