@@ -22,7 +22,7 @@ public class Main {
                 currentVehicle = (currentVehicle + 1) % vehicles.size();
             }
 
-            Output.writeOutput(vehicles);
+            Output.writeOutput(vehicles, "out/" + file.getName().substring(0, 1) + ".out");
 
             System.out.println("Vehicles: " + nVehicles);
             System.out.println("Rides:    " + nRides);

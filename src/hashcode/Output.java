@@ -6,13 +6,13 @@ import java.util.List;
 
 public class Output {
 
-    public static void writeOutput (List<Vehicle> vehicles) {
+    public static void writeOutput (List<Vehicle> vehicles, String filename) {
         Comparator<Integer> natural = Comparator.naturalOrder();
 
         vehicles.sort((o1, o2) -> natural.compare(o1.getId(), o2.getId()));
 
         try {
-            File fout = new File("out.txt");
+            File fout = new File(filename);
             FileOutputStream fos = new FileOutputStream(fout);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
