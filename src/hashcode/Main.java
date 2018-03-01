@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.abs;
-
 public class Main {
     static int rows, cols, nVehicles, nRides, bonus, steps;
 
@@ -13,7 +11,7 @@ public class Main {
     private static List<Vehicle> vehicles;
 
     public static void main (String[] args) throws FileNotFoundException {
-        Input.read("res/a.in");
+        Input.read("res/b.in");
 
         int currentVehicle = 0;
         for (Ride ride : rides) {
